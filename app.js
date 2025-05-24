@@ -1,9 +1,11 @@
-import { Client, LocalAuth } from'whatsapp-web.js';
-import qrcode from'qrcode-terminal';
-import {prompt} from'./prompt.js';
-import { GoogleGenerativeAI } from'@google/generative-ai';
-import 'dotenv/config'; 
+// >>> CORREÇÃO AQUI para importar whatsapp-web.js <<<
+import pkg from 'whatsapp-web.js';
+const { Client, LocalAuth } = pkg;
 
+import qrcode from 'qrcode-terminal';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import prompt from './prompt.js';
+import 'dotenv/config'; // Garanta que isso esteja no topo, ou logo após as primeiras importações
 const client = new Client({
     authStrategy: new LocalAuth({
         clientId: 'bot-clinica-pessini',
