@@ -1,7 +1,7 @@
-const { Client, LocalAuth } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
-const {prompt} = require('./prompt.js');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+import { Client, LocalAuth } from'whatsapp-web.js';
+import qrcode from'qrcode-terminal';
+import {prompt} from'./prompt.js';
+import { GoogleGenerativeAI } from'@google/generative-ai';
 import 'dotenv/config'; 
 
 const client = new Client({
