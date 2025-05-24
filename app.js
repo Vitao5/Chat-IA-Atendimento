@@ -1,7 +1,7 @@
 // >>> CORREÇÃO AQUI para importar whatsapp-web.js <<<
 import pkg from 'whatsapp-web.js';
 const { Client, LocalAuth } = pkg;
-
+import qrcode from 'qrcode'
 import qrcode from 'qrcode-terminal';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import prompt from './prompt.js';
@@ -34,9 +34,18 @@ const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro-latest' });
 const usuariosInteracao = new Set();
 
 client.on('qr', (qr) => {
-    // Gera e exibe o QR Code no terminal para autenticação inicial do WhatsApp Web
-    console.log('QR RECEIVED', qr);
-    qrcode.generate(qr, { small: true });
+    console.log('QR RECEIVED', qr); 
+
+    qrcode.toDataURL(qr, { errorCorrectionLevel: 'H' }, (err, url) => {
+        if (err) {
+            console.error('Erro ao gerar QR code como imagem:', err);
+        } else {
+            console.log('--- COPIE O TEXTO ABAIXO E CONVERTA PARA IMAGEM ---');
+            console.log('QR Code Base64:', url); // <<< O QR CODE ESTARÁ AQUI COMO STRING BASE64
+            console.log('--- FIM DO QR CODE ---');
+            console.log('Para escanear, copie a string Base64 (que começa com "data:image/png;base64,..."), cole em um site como https://codebeautify.org/base64-to-image-converter e escaneie a imagem gerada.');
+        }
+    });
 });
 
 //conexão com o WhatsApp Web
