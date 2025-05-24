@@ -1,8 +1,10 @@
 # Dockerfile
 
+# Usa uma imagem base oficial do Node.js com as ferramentas necessárias
 FROM node:18-slim
 
 # Instala o Chromium e suas dependências
+# A versão do Chromium deve ser compatível com a versão do Puppeteer no seu whatsapp-web.js
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -28,7 +30,7 @@ RUN apt-get update && apt-get install -y \
     libxdamage1 \
     libxfixes3 \
     libxrandr2 \
-    libxshmfence6 \
+    # REMOVIDO: libxshmfence6 \  <<< ESTA LINHA FOI REMOVIDA
     libxtst6 \
     xdg-utils \
     libu2f-udev \
@@ -45,11 +47,15 @@ RUN apt-get update && apt-get install -y \
     # Limpeza
     && rm -rf /var/lib/apt/lists/*
 
+# Cria e define o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
+# Copia package.json e package-lock.json e instala dependências
 COPY package*.json ./
 RUN npm install
 
+# Copia o restante do código da sua aplicação
 COPY . .
 
+# Comando para iniciar a aplicação
 CMD ["npm", "start"]
