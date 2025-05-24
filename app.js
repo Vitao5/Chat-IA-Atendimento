@@ -2,6 +2,7 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const {prompt} = require('./prompt.js');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+import 'dotenv/config'; 
 
 const client = new Client({
     authStrategy: new LocalAuth({
@@ -19,7 +20,7 @@ const client = new Client({
 });
 
 
-const GEMINI_API_KEY = 'AIzaSyBkFw3JuasPjenCJAtVXBrg-d1YKXcCCqE';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const historicoChat = new Map(); 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro-latest' });
