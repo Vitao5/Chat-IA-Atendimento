@@ -23,9 +23,9 @@ const client = new Client({
 
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-console.log( GEMINI_API_KEY);
+console.log('CHAVE API NULL', GEMINI_API_KEY === null);
+
 const historicoChat = new Map(); 
-console.log("🔐 Chave GEMINI_API_KEY:", GEMINI_API_KEY);
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro-latest' });

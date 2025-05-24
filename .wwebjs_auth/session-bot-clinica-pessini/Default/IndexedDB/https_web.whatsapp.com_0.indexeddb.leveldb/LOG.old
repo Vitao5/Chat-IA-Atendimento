@@ -1,3 +1,17 @@
-2025/05/24-14:53:09.643 1cc8 Reusing MANIFEST C:\Users\vitin\Desktop\ChatBot\.wwebjs_auth\session-bot-clinica-pessini\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/05/24-14:53:09.644 1cc8 Recovering log #5712
-2025/05/24-14:53:09.778 1cc8 Reusing old log C:\Users\vitin\Desktop\ChatBot\.wwebjs_auth\session-bot-clinica-pessini\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/005712.log 
+2025/05/24-15:21:43.465 3818 Reusing MANIFEST C:\Users\vitin\Desktop\ChatBot\.wwebjs_auth\session-bot-clinica-pessini\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/05/24-15:21:43.467 3818 Recovering log #5785
+2025/05/24-15:21:43.515 3818 Reusing old log C:\Users\vitin\Desktop\ChatBot\.wwebjs_auth\session-bot-clinica-pessini\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/005785.log 
+2025/05/24-15:21:44.881 3818 Level-0 table #5839: started
+2025/05/24-15:21:44.889 3818 Level-0 table #5839: 349198 bytes OK
+2025/05/24-15:21:44.891 3818 Delete type=0 #5785
+2025/05/24-15:21:44.891 3818 Manual compaction at level-0 from '\x008\x00\x00\x00' @ 72057594037927935 : 1 .. '\x009\x00\x00\x00' @ 0 : 0; will stop at '\x008\x00\x00\x05' @ 10747021 : 1
+2025/05/24-15:21:44.891 3818 Compacting 1@0 + 2@1 files
+2025/05/24-15:21:44.904 3818 Generated table #5840@0: 6349 keys, 132080 bytes
+2025/05/24-15:21:44.906 3818 Generated table #5841@0: 115 keys, 10657 bytes
+2025/05/24-15:21:44.909 3818 Generated table #5842@0: 329 keys, 18598 bytes
+2025/05/24-15:21:44.912 3818 Generated table #5843@0: 732 keys, 13496 bytes
+2025/05/24-15:21:44.915 3818 Generated table #5844@0: 370 keys, 8754 bytes
+2025/05/24-15:21:44.915 3818 Compacted 1@0 + 2@1 files => 183585 bytes
+2025/05/24-15:21:44.917 3818 compacted to: files[ 0 5 58 34 0 0 0 ]
+2025/05/24-15:21:44.917 3818 Delete type=2 #5839
+2025/05/24-15:21:44.918 3818 Manual compaction at level-0 from '\x008\x00\x00\x05' @ 10747021 : 1 .. '\x009\x00\x00\x00' @ 0 : 0; will stop at (end)
