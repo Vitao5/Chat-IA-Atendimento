@@ -46,7 +46,7 @@ client.on('ready', () => {
     console.log('Cliente pronto! WhatsApp conectado.');
 });
 
-client.on('authenticated', (session) => {
+client.on('authenticated', () => {
     console.log('Autenticado com sucesso!');
 });
 
