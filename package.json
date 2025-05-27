@@ -13,7 +13,7 @@
     "gemini-ai",
     "node.js"
   ],
-  "author": "Seu Nome",
+  "author": "Victor Moreira",
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.14.1",

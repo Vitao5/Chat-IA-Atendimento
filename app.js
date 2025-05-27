@@ -1,17 +1,17 @@
-// >>> CORREÇÃO AQUI para importar whatsapp-web.js <<<
 import pkg from 'whatsapp-web.js';
 import 'dotenv/config'; 
 const { Client, LocalAuth } = pkg;
 import qrcode from 'qrcode'
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import prompt from './prompt.js';
-// Garanta que isso esteja no topo, ou logo após as primeiras importações
+
 const client = new Client({
     authStrategy: new LocalAuth({
         clientId: 'bot-clinica-pessini',
         dataPath: './.wwebjs_auth'
     }),
     puppeteer: {
+        //false, ele abre o navegador para escanear o QR Code
         headless: true,
         args: [
             '--no-sandbox',
@@ -37,14 +37,7 @@ client.on('qr', (qr) => {
     console.log('QR RECEIVED', qr); 
 
     qrcode.toDataURL(qr, { errorCorrectionLevel: 'H' }, (err, url) => {
-        if (err) {
-            console.error('Erro ao gerar QR code como imagem:', err);
-        } else {
-            console.log('--- COPIE O TEXTO ABAIXO E CONVERTA PARA IMAGEM ---');
-            console.log('QR Code Base64:', url); // <<< O QR CODE ESTARÁ AQUI COMO STRING BASE64
-            console.log('--- FIM DO QR CODE ---');
-            console.log('Para escanear, copie a string Base64 (que começa com "data:image/png;base64,..."), cole em um site como https://codebeautify.org/base64-to-image-converter e escaneie a imagem gerada.');
-        }
+        if (!!url) console.log('QR Code Base64:', url)
     });
 });
 
@@ -57,7 +50,6 @@ client.on('authenticated', (session) => {
     console.log('Autenticado com sucesso!');
 });
 
-// Tratamento de sinais do sistema para um encerramento limpo do cliente
 process.on('SIGTERM', async () => {
     console.log('(SIGTERM) Encerrando o cliente...');
     await client.destroy();
@@ -86,7 +78,7 @@ client.on('message', async (message) => {
     const mensagemTexto = message.body;
     const userId = message.from;
 
-    // não execute o código se a mensagem for do próprio bot
+    // não executa o código se a mensagem for do próprio bot
     if (message.fromMe) {
         return;
     }
@@ -96,7 +88,7 @@ client.on('message', async (message) => {
     //envia mensagem de saudação inicial e histórico da conversa para dar contexto
     if (!usuariosInteracao.has(userId) && !!responder) {
         const chat = await message.getChat();
-        const initialGreeting = 'Olá! Eu sou um atendente virtual da Clínica Médica Imaginária. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Qual é sua pergunta?';
+        const initialGreeting = 'Olá! Eu sou um atendente virtual da Clínica Médica Imaginária. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Para interagir comigo, use sempre /r Qual é sua pergunta?';
         await chat.sendMessage(initialGreeting);
         usuariosInteracao.add(userId);
         if (!historicoChat.has(userId)) {
