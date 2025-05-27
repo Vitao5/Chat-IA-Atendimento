@@ -88,7 +88,7 @@ client.on('message', async (message) => {
     //envia mensagem de saudação inicial e histórico da conversa para dar contexto
     if (!usuariosInteracao.has(userId) && !!responder) {
         const chat = await message.getChat();
-        const initialGreeting = 'Olá! Eu sou um atendente virtual da Clínica Médica Imaginária. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Para interagir comigo, use sempre /r Qual é sua pergunta?';
+        const initialGreeting = 'Olá! Eu sou um atendente virtual da Clínica Médica Imaginária. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Para interagir comigo, use sempre /r. Qual é sua pergunta?';
         await chat.sendMessage(initialGreeting);
         usuariosInteracao.add(userId);
         if (!historicoChat.has(userId)) {
