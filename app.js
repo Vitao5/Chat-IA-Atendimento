@@ -135,7 +135,7 @@ client.on('message', async (message) => {
 
             setTimeout(async () => {
                 await chat.sendMessage(respostaIA);
-            }, 2000);
+            }, 2500);
 
         } catch (error) {
             console.error("Erro ao chamar a API Gemini:", error);
