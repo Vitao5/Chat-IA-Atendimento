@@ -81,7 +81,7 @@ client.on('message', async (message) => {
     // não executa o código se a mensagem for do próprio bot
     if (message.fromMe) {
         return;
-        
+
     }
 
     const responder = mensagemTexto.split(' ').includes('/r') && !message.fromMe;
@@ -103,6 +103,7 @@ client.on('message', async (message) => {
     if (responder) {
         const mensagemParaIA = mensagemTexto.substring(mensagemTexto.indexOf('/r') + 2).trim();
 
+        
         try {
             const chat = await message.getChat();
             await chat.sendStateTyping();
