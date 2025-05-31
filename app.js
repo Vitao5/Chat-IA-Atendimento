@@ -93,9 +93,11 @@ client.on('message', async (message) => {
         await chat.sendMessage(initialGreeting);
         usuariosInteracao.add(userId);
         if (!historicoChat.has(userId)) {
-            historicoChat.set(userId, [
-                { role: 'model', parts: [{ text: initialGreeting }] }
-            ]);
+            setTimeout(() => {
+                historicoChat.set(userId, [
+                    { role: 'model', parts: [{ text: initialGreeting }] }
+                ]);
+            }, 2000);
         }
 
     }
