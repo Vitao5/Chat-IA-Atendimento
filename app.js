@@ -81,6 +81,7 @@ client.on('message', async (message) => {
     // não executa o código se a mensagem for do próprio bot
     if (message.fromMe) {
         return;
+        
     }
 
     const responder = mensagemTexto.split(' ').includes('/r') && !message.fromMe;
