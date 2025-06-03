@@ -75,7 +75,6 @@ client.on('disconnected', (reason) => {
 
 //interação com a ia
 client.on('message', async (message) => {
-    const mensagemTexto = message.body;
     const userId = message.from;
 
     // não executa o código se a mensagem for do próprio bot
@@ -84,12 +83,12 @@ client.on('message', async (message) => {
 
     }
 
-    const responder = mensagemTexto.split(' ').includes('/r') && !message.fromMe;
+    const responder = message.type === 'chat' && !message.fromMe;
 
     //envia mensagem de saudação inicial e histórico da conversa para dar contexto
     if (!usuariosInteracao.has(userId) && !!responder) {
         const chat = await message.getChat();
-        const initialGreeting = 'Olá! Eu sou um atendente virtual da Clínica Médica Imaginária. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Para interagir comigo, use sempre /r. Qual é sua pergunta?';
+        const initialGreeting = 'Olá! Eu sou um atendente virtual da Clínica Médica Imaginária. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Qual é sua pergunta?';
         await chat.sendMessage(initialGreeting);
         usuariosInteracao.add(userId);
         if (!historicoChat.has(userId)) {
@@ -103,15 +102,15 @@ client.on('message', async (message) => {
     }
 
     if (responder) {
-        const mensagemParaIA = mensagemTexto.substring(mensagemTexto.indexOf('/r') + 2).trim();
+
 
         
         try {
             const chat = await message.getChat();
             await chat.sendStateTyping();
-
+            console.log('Mensagem recebida:', message);
             let historicoConversaAtual = historicoChat.get(userId) || [];
-            historicoConversaAtual.push({ role: 'user', parts: [{ text: mensagemParaIA }] });
+            historicoConversaAtual.push({ role: 'user', parts: [{ text: message.body }] });
 
             const contentsToSend = [
                 {
