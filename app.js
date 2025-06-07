@@ -1,11 +1,10 @@
-// >>> CORREÇÃO AQUI para importar whatsapp-web.js <<<
 import pkg from 'whatsapp-web.js';
 import 'dotenv/config'; 
 const { Client, LocalAuth } = pkg;
 import qrcode from 'qrcode'
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import prompt from './prompt.js';
-// Garanta que isso esteja no topo, ou logo após as primeiras importações
+
 const client = new Client({
     authStrategy: new LocalAuth({
         clientId: 'bot-clinica-pessini',
@@ -23,7 +22,6 @@ const client = new Client({
 
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-console.log('CHAVE API NULL', GEMINI_API_KEY === null);
 
 const historicoChat = new Map(); 
 
@@ -40,10 +38,7 @@ client.on('qr', (qr) => {
         if (err) {
             console.error('Erro ao gerar QR code como imagem:', err);
         } else {
-            console.log('--- COPIE O TEXTO ABAIXO E CONVERTA PARA IMAGEM ---');
-            console.log('QR Code Base64:', url); // <<< O QR CODE ESTARÁ AQUI COMO STRING BASE64
-            console.log('--- FIM DO QR CODE ---');
-            console.log('Para escanear, copie a string Base64 (que começa com "data:image/png;base64,..."), cole em um site como https://codebeautify.org/base64-to-image-converter e escaneie a imagem gerada.');
+            console.log('QR Code Base64:', url);
         }
     });
 });
@@ -96,13 +91,13 @@ client.on('message', async (message) => {
     //envia mensagem de saudação inicial e histórico da conversa para dar contexto
     if (!usuariosInteracao.has(userId) && !!responder) {
         const chat = await message.getChat();
-        const initialGreeting = 'Olá! Eu sou um atendente virtual da Clínica Médica Imaginária. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Qual é sua pergunta?';
-        await chat.sendMessage(initialGreeting);
+        const saudacaoInicial = 'Olá! Eu sou uma I.A. (Inteligência Artificial), atendente virtual da Clínica Médica Imaginária. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Qual é sua pergunta?';
+        await chat.sendMessage(saudacaoInicial);
         usuariosInteracao.add(userId);
         if (!historicoChat.has(userId)) {
             setTimeout(() => {
                 historicoChat.set(userId, [
-                    { role: 'model', parts: [{ text: initialGreeting }] }
+                    { role: 'model', parts: [{ text: saudacaoInicial }] }
                 ]);
             }, 2000);
         }
@@ -110,37 +105,36 @@ client.on('message', async (message) => {
     }
 
     if (responder) {
-
-
-        
         try {
             const chat = await message.getChat();
             await chat.sendStateTyping();
-            console.log('Mensagem recebida:', message);
+    
             let historicoConversaAtual = historicoChat.get(userId) || [];
             historicoConversaAtual.push({ role: 'user', parts: [{ text: message.body }] });
 
-            const contentsToSend = [
+            const conteudoParaEnviar = [
                 {
                     role: 'user',
                     parts: [{ text: prompt }]
                 },
-                {
-                    role: 'model',
-                    parts: [{ text: 'Ok, estou pronto para seguir as instruções sobre a Clínica Pessini.' }]
-                },
-                ...historicoConversaAtual 
+                ...historicoConversaAtual,
+                
             ];
 
             const result = await model.generateContent({
-                contents: contentsToSend
+                contents: conteudoParaEnviar,
+                //quanto mais alto o valor, mais criativa a resposta e pode ocilar na resposta
+                temperature: 0.8,
+
+                //limita o tamanho da resposta e evita custos altos
+                maxOutputTokens: 250,
             });
 
             const respotaRequisicao = result.response.text();
             const respostaIA = respotaRequisicao.trim();
 
             historicoConversaAtual.push({ role: 'model', parts: [{ text: respostaIA }] });
-            historicoChat.set(userId, historicoConversaAtual); // Atualiza o histórico para o usuário
+            historicoChat.set(userId, historicoConversaAtual); 
 
             setTimeout(async () => {
                 await chat.sendMessage(respostaIA);
