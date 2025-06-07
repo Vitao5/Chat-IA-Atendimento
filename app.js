@@ -1,17 +1,17 @@
+// >>> CORREÇÃO AQUI para importar whatsapp-web.js <<<
 import pkg from 'whatsapp-web.js';
 import 'dotenv/config'; 
 const { Client, LocalAuth } = pkg;
 import qrcode from 'qrcode'
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import prompt from './prompt.js';
-
+// Garanta que isso esteja no topo, ou logo após as primeiras importações
 const client = new Client({
     authStrategy: new LocalAuth({
         clientId: 'bot-clinica-pessini',
         dataPath: './.wwebjs_auth'
     }),
     puppeteer: {
-        //false, ele abre o navegador para escanear o QR Code
         headless: true,
         args: [
             '--no-sandbox',
@@ -37,7 +37,14 @@ client.on('qr', (qr) => {
     console.log('QR RECEIVED', qr); 
 
     qrcode.toDataURL(qr, { errorCorrectionLevel: 'H' }, (err, url) => {
-        if (!!url) console.log('QR Code Base64:', url)
+        if (err) {
+            console.error('Erro ao gerar QR code como imagem:', err);
+        } else {
+            console.log('--- COPIE O TEXTO ABAIXO E CONVERTA PARA IMAGEM ---');
+            console.log('QR Code Base64:', url); // <<< O QR CODE ESTARÁ AQUI COMO STRING BASE64
+            console.log('--- FIM DO QR CODE ---');
+            console.log('Para escanear, copie a string Base64 (que começa com "data:image/png;base64,..."), cole em um site como https://codebeautify.org/base64-to-image-converter e escaneie a imagem gerada.');
+        }
     });
 });
 
@@ -50,6 +57,7 @@ client.on('authenticated', () => {
     console.log('Autenticado com sucesso!');
 });
 
+// Tratamento de sinais do sistema para um encerramento limpo do cliente
 process.on('SIGTERM', async () => {
     console.log('(SIGTERM) Encerrando o cliente...');
     await client.destroy();
@@ -77,7 +85,7 @@ client.on('disconnected', (reason) => {
 client.on('message', async (message) => {
     const userId = message.from;
 
-    // não executa o código se a mensagem for do próprio bot
+    // não execute o código se a mensagem for do próprio bot
     if (message.fromMe) {
         return;
 

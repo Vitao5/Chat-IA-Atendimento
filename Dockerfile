@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y \
     libxdamage1 \
     libxfixes3 \
     libxrandr2 \
+    # REMOVIDO: libxshmfence6 \  <<< ESTA LINHA FOI REMOVIDA
     libxtst6 \
     xdg-utils \
     libu2f-udev \
