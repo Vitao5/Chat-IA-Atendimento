@@ -91,7 +91,7 @@ client.on('message', async (message) => {
     //envia mensagem de saudação inicial e histórico da conversa para dar contexto
     if (!usuariosInteracao.has(userId) && !!responder) {
         const chat = await message.getChat();
-        const saudacaoInicial = 'Olá! Eu sou uma I.A. (Inteligência Artificial), atendente virtual da Clínica Médica Imaginária. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Qual é sua pergunta?';
+        const saudacaoInicial = 'Olá! Eu sou uma I.A. (Inteligência Artificial), atendente virtual da clínica. Estou aqui para ajudar com suas dúvidas e necessidades relacionadas à nossa clínica. Qual é sua pergunta?';
         await chat.sendMessage(saudacaoInicial);
         usuariosInteracao.add(userId);
         if (!historicoChat.has(userId)) {
