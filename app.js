@@ -123,11 +123,13 @@ client.on('message', async (message) => {
 
             const result = await model.generateContent({
                 contents: conteudoParaEnviar,
-                //quanto mais alto o valor, mais criativa a resposta e pode ocilar na resposta
-                temperature: 0.8,
+                generationConfig: {
+                    //quanto mais alto o valor, mais criativa a resposta e pode ocilar na resposta
+                    temperature: 0.8,
+                    //limita o tamanho da resposta e evita custos altos
+                    maxOutputTokens: 250
+                }
 
-                //limita o tamanho da resposta e evita custos altos
-                maxOutputTokens: 250,
             });
 
             const respotaRequisicao = result.response.text();
