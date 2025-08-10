@@ -80,10 +80,9 @@ client.on('disconnected', (reason) => {
 client.on('message', async (message) => {
     const userId = message.from;
 
-    // não execute o código se a mensagem for do próprio bot
+    // não executa o código se a mensagem for do próprio bot
     if (message.fromMe) {
         return;
-
     }
 
     const responder = message.type === 'chat' && !message.fromMe;
