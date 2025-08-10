@@ -1,4 +1,4 @@
-# ChatBot IA - Atendimento Clínica Pessini
+# ChatBot IA - Atendimento Clínica
 
 ## 📋 Descrição
 
@@ -35,7 +35,7 @@ Bot de atendimento automatizado para WhatsApp desenvolvido para fins acadêmicos
 }
 ```
 
-## 🤖 Funcionalidades da IA
+## 🤖 Funcionalidades
 
 ### Atendimento Automatizado
 - Resposta imediata a perguntas sobre a clínica
